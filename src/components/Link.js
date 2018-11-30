@@ -27,22 +27,66 @@ export default function () {
   class Link extends React.Component {
     render() {
       const { defaultLanguage, localeSubpaths } = config
-      const { children, href } = this.props
+      const {
+        children,
+        href,
+        as,
+        passHref,
+        prefetch,
+        replace,
+        shallow,
+        scroll,
+      } = this.props
       const lng = i18n.languages[0]
       if (localeSubpaths && lng !== defaultLanguage) {
         return (
-          <NextLink href={`${href}?lng=${lng}`} as={`/${lng}${href}`}>
+          <NextLink
+            href={`${href}?lng=${lng}`}
+            as={as ? `/${lng}${as}` : `/${lng}${href}`}
+            passHref={passHref}
+            prefetch={prefetch}
+            replace={replace}
+            shallow={shallow}
+            scroll={scroll}
+          >
             {children}
           </NextLink>
         )
       }
-      return <NextLink href={href}>{children}</NextLink>
+      return (
+        <NextLink
+          href={href}
+          as={as}
+          passHref={passHref}
+          prefetch={prefetch}
+          replace={replace}
+          shallow={shallow}
+          scroll={scroll}
+        >
+          {children}
+        </NextLink>
+      )
     }
   }
 
   Link.propTypes = {
     children: PropTypes.node.isRequired,
     href: PropTypes.string.isRequired,
+    as: PropTypes.string,
+    prefetch: PropTypes.bool,
+    replace: PropTypes.bool,
+    shallow: PropTypes.bool,
+    passHref: PropTypes.bool,
+    scroll: PropTypes.bool,
+  }
+
+  Link.defaultProps = {
+    as: undefined,
+    prefetch: undefined,
+    replace: undefined,
+    shallow: undefined,
+    passHref: undefined,
+    scroll: undefined,
   }
 
   /*
