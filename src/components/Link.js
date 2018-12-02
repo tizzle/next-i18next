@@ -41,8 +41,13 @@ export default function () {
       if (localeSubpaths && lng !== defaultLanguage) {
         return (
           <NextLink
-            href={`${href}?lng=${lng}`}
-            as={as ? `/${lng}${as}` : `/${lng}${href}`}
+            href={{
+              pathanme: href,
+              query: {
+                lng,
+              },
+            }}
+            as={as || `/${lng}${href}`}
             passHref={passHref}
             prefetch={prefetch}
             replace={replace}
